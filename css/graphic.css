@@ -1,0 +1,64 @@
+/*
+ * FECHA: 2021/01/21
+ * AUTOR: Julio Alejandro Santos Corona
+ * CORREO: julisantos@santander.com.mx | jualesac@yahoo.com
+ * TÍTULO: graphic.css
+ *
+ * Descripción: Estilos de gráfica.
+*/
+
+* {
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.js_graphic_axis line, .js_graphic_axis path {
+    stroke-width: 0.8;
+    stroke: rgb(130, 130, 130);
+}
+
+.js_graphic_axis_scale_name {
+    fill: rgba(0, 0, 0, 0.6);
+    font-size: 12px;
+    font-weight: bold;
+    font-family: Verdana, Helvetica, Arial, sans-serif;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.js_graphic_axis_scale_values {
+    font-family: Verdana, Helvetica, Arial, sans-serif;
+    font-size: 10.8px;
+    fill: rgba(0, 0, 0, 0.6);
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+.js_graphic_area_background {
+    fill: rgb(254, 254, 254);
+}
+
+.js_graphic_info_rect {
+    fill: rgba(21, 23, 24, 0.75);
+    stroke: rgb(21, 23, 24);
+    stroke-width: 1.2px;
+}
+
+.js_graphic_info_text {
+    fill: rgba(254, 254, 254, 0.75);
+    font-size: 10px;
+    font-weight: bold;
+    font-family: Verdana, Helvetica, sans-serif;
+}
+
+.js_graphic_points > circle {
+    stroke-width: 1.1;
+    stroke-opacity: 0.9;
+    fill-opacity: 0.25;
+    cursor: pointer;
+}
+
+.js_graphic_points > circle:hover {
+    r: 5.5px;
+}
