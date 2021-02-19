@@ -2,7 +2,7 @@
  * FECHA: 2020/12/21
  * AUTOR: Julio Alejandro Santos Corona
  * CORREO: jualesac@yahoo.com
- * TÍTULO: math.js
+ * TÍTULO: geometry.js
  * 
  * Descripción: Funciones matemáticas útiles para geometría.
 */
