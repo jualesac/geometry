@@ -885,7 +885,7 @@ var GEOMETRY = {
                         tspan = _jsg.createElement ("tspan").setAttributes ({ x: p.x, y: p.y });
                         tspan.appendTo (`${id}_info_text`);
 
-                        p.y = p.y + (14 * n);
+                        p.y = p.y + 14;
 
                         switch (i) {
                             case "x":
@@ -902,12 +902,10 @@ var GEOMETRY = {
                         }
 
                         p.w.push (tspan.getBoundingClientRect ().width);
-                        p.h.push (tspan.getBoundingClientRect ().height);
+                        p.h.push (tspan.getBoundingClientRect ().height - 1);
 
                         n++;
                     } else {
-                        p.y = p.y - 14;
-                        
                         tspanInfo (info[i], p);
                     }
                 }
@@ -1111,6 +1109,7 @@ var GEOMETRY = {
                 if (evnt.target.tagName != "circle") { return; }
 
                 let circle = evnt.target;
+
                 let position = {
                     x: Number (circle.getAttribute ("cx")) + _delta.x,
                     y: Number (circle.getAttribute ("cy")) + _delta.y
