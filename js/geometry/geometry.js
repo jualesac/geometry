@@ -4,7 +4,7 @@
  * CORREO: jualesac@yahoo.com
  * TÍTULO: geometry.js
  * 
- * Descripción: Funciones matemáticas útiles para geometría.
+ * Descripción: Clases útiles para geometría.
 */
 
 "use strict";
@@ -841,19 +841,18 @@ var GEOMETRY = {
                 let ptspan = {
                     x: p.x + 4,
                     y: p.y + 12,
-                    w: []
+                    w: [],
+                    h: []
                 };
                 let width;
                 let height;
-                let py;
 
                 _jsg(`${id}_info_text`).textContent = "";
 
                 tspanInfo (circle.graphicInfo, ptspan);
 
                 width = Math.max (...ptspan.w) + 8;
-                py = _jsg(`#${id}_info_text > tspan:last-child`).getBoundingClientRect ().y + 18;
-                height = py - p.y;
+                height = ptspan.h.reduce (function (a, b) { return a + b; });
 
                 p.x = (p.x + width) > _area.x1 ? _area.x1 - width : p.x;
                 p.y = (p.y + height) > _area.y1 ? _area.y1 - height : p.y;
@@ -876,7 +875,8 @@ var GEOMETRY = {
                 let p = {
                     x: position.x,
                     y: position.y,
-                    w: position.w
+                    w: position.w,
+                    h: position.h
                 };
                 let n = 1;
 
@@ -902,6 +902,7 @@ var GEOMETRY = {
                         }
 
                         p.w.push (tspan.getBoundingClientRect ().width);
+                        p.h.push (tspan.getBoundingClientRect ().height);
 
                         n++;
                     } else {
@@ -1111,8 +1112,8 @@ var GEOMETRY = {
 
                 let circle = evnt.target;
                 let position = {
-                    x: evnt.clientX,
-                    y: evnt.clientY
+                    x: Number (circle.getAttribute ("cx")) + _delta.x,
+                    y: Number (circle.getAttribute ("cy")) + _delta.y
                 };
 
                 skull.createInfo (circle, position);
