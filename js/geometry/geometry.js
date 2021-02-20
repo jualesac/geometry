@@ -879,6 +879,7 @@ var GEOMETRY = {
                     h: position.h
                 };
                 let n = 1;
+                let h;
 
                 for (let i in info) {
                     if (typeof (info[i]) != "object") {
@@ -900,9 +901,9 @@ var GEOMETRY = {
                                 tspan.textContent = `${i}: ${info[i]}`;
                             break;
                         }
-
+                        h = Math.floor (tspan.getBoundingClientRect ().height);
                         p.w.push (tspan.getBoundingClientRect ().width);
-                        p.h.push (tspan.getBoundingClientRect ().height - 1);
+                        p.h.push (h + (h <= 14 ? 14 - h : 0));
 
                         n++;
                     } else {
