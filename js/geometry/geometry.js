@@ -903,7 +903,7 @@ var GEOMETRY = {
                         }
                         h = Math.floor (tspan.getBoundingClientRect ().height);
                         p.w.push (tspan.getBoundingClientRect ().width);
-                        p.h.push (h + (h <= 14 ? 14 - h : 0));
+                        p.h.push (h + (h <= 15 ? 15 - h : 0));
 
                         n++;
                     } else {
