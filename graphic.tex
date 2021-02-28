@@ -1,0 +1,310 @@
+%
+% FECHA: 2021-02-14
+% AUTOR: Julio Alejandro Santos Corona
+% CORREO: jualesac@yahoo.com
+% TÍTULO: tabla.tex
+%
+% Descripción: Documentación de la clase GRAPHIC.
+%
+
+\documentclass[10pt]{article}
+\usepackage[spanish]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{anysize}
+\usepackage{colortbl}
+\title{GRAPHIC v.1.0}
+\author{Julio Alejandro Santos Corona}
+\date{14 de febrero de 2021}
+
+\marginsize{2.5cm}{2.5cm}{0cm}{1.5cm}
+
+\definecolor{comment}{rgb}{0.5, 0.5, 0.5}
+\definecolor{background}{rgb}{0.21, 0.24, 0.25}
+
+\begin{document}
+\lstdefinelanguage{JavaScript}{
+	morekeywords={
+		new,
+		function,
+		var,
+		let,
+		GEOMETRY,
+		GRAPHIC,
+		notationX,
+		notationY,
+		onBuild,
+		setPoint,
+		active,
+		build,
+		clear,
+		setRange,
+		getID,
+		getPoints,
+		getStatus,
+		length,
+		reset,
+		create
+	},
+	sensitive=false,
+	morecomment=[l][\color{comment}]{//},
+	morecomment=[s][\color{comment}]{/*}{*/}
+}
+
+\lstset{breaklines=true, tabsize=4, language=JavaScript}
+\lstset{basicstyle=\small, numbers=left, numberstyle=\small, stepnumber=1, numbersep=-12pt, backgroundcolor=\color{white}, frame=leftline}
+
+\maketitle
+
+La clase crea grápicas de puntos de forma simple, las gráficas pueden ser exploradas o segmentadas.
+
+\section{Instancia}
+
+La instancia se crea a través del constructor de la función \textbf{GEOMETYR.GRAPHIC.main} al que se le pasa un objeto como argumento.
+\\
+\begin{lstlisting}
+	var graphic = new GEOMETRY.GRAPHIC.main (config);
+\end{lstlisting}
+
+\subsection{Configuración}
+
+La configuración de la gráfica se realiza a través de un objeto pasado durante la creación de instancia con la siguiente estructura:
+\\\\
+\begin{tabular}{|m{2.2cm}|m{1.5cm}|m{11.5cm}|}
+	\hline
+	\rowcolor{black}\textcolor{white}{Propiedad} & \textcolor{white}{Tipo} & \textcolor{white}{Descripción} \\
+	\hline
+	width & number & Ancho de la gráfica. \\
+	\hline
+	height & number & Alto de la gráfica. \\
+	\hline
+	nameX & string & Nombre del eje x. \\
+	\hline
+	nameY & string & Nombre del eje y. \\
+	\hline
+	marginL & number & Margen izquierdo (configura el espacio dedicado al nombre del eje y). \\
+	\hline
+	marginR & number & Margen derecho. \\
+	\hline
+	maxUnitsX & number & Número máximo de segmentos calculados para el eje x. \\
+	\hline
+	maxUnitsY & number & Número máximo de segmentos calculados para el eje y. \\
+	\hline
+	directionX & string & Dirección del eje x ( + o - ). \\
+	\hline
+	directionY & string & Dirección del eje y ( + o - ). \\
+	\hline
+	notationX & function & Callback que toma el valor de escala y lo transforma según la función. \\
+	\hline
+	notationY & function & Callback que toma el valor de escala y lo transforma según la función. \\
+	\hline
+\end{tabular}
+\\\\
+\begin{lstlisting}
+	var graphic = new GEOMETRY.GRAPHIC.main ({
+		width: 1350,
+        height: 580,
+        nameX: "ops",
+        nameY: "min",
+        marginL: -30,
+        marginR: -12,
+        maxUnitsX: 13,
+        maxUnitsY: 10,
+        directionX: "+",
+        directionY: "-",
+        notationX: function (val) { return val; },
+        notationY: function (val) { return val; }
+	});
+\end{lstlisting}
+\newpage
+\subsection{Métodos}
+
+Al crear la instancia se contarán con los siguientes métodos:
+
+\begin{itemize}
+	\item \textbf{build} - Construcción de la gráfica, soporta un booleano como argumento para centrarse en un segmento o sólo construir dicho segmento.
+	\item \textbf{clear} - Elimina las gráficas mostradas.
+	\item \textbf{onBuild} - Recibe una función como argumento que será ejecutado en cada construcción de puntos.
+	\item \textbf{create} - Clase que permite crear espacios geométricos.
+\end{itemize}
+
+\section{Espacios geométricos}
+
+El espacio geométrico es un conjunto independiente de puntos que serán graficados.
+\\\\
+Dicho espacio es instanciado a partir de la clase \textbf{create} que requiere un objeto con la siguiente configuración.
+\\\\
+\noindent
+\begin{tabular}{|m{2.2cm}|m{1.5cm}|m{11.5cm}|}
+	\hline
+	\rowcolor{black}\textcolor{white}{Propiedad} & \textcolor{white}{Tipo} & \textcolor{white}{Descripción} \\
+	name & string & Nombre del espacio de puntos. \\
+	\hline
+	color & string & Color de línea en lenguaje css. \\
+	\hline
+	fill &
+	object &
+	\begin{tabular}{|m{2cm}|m{1.5cm}|m{6.7cm}|}
+		width & number & Anchura del patrón de relleno. \\
+		\hline
+		height & number & Altura del patrón de relleno. \\
+		\hline
+		color & string & Color de relleno en formato css. \\
+		\hline
+		type & string & l = líneas, c = círculos \\
+		\hline
+		center & object & Activo sólo si type es c. \{ x: 0, y: 0 \} \\
+		\hline
+		line & string & Activo sólo si type es l. \\
+	\end{tabular} \\
+	\hline
+\end{tabular}
+\\\\
+\begin{lstlisting}
+	let g1 = new graphic.create ({
+		name: "G1",
+        color: "rgb(67, 124, 156)",
+        fill: {
+            width: 5,
+            height: 5,
+            color: "rgb(67, 124, 156)",
+            type: "l",
+            line: "M 5 0, 0 5"
+        }
+	});
+\end{lstlisting}
+\noindent
+El objeto contiene los siguientes métodos:
+
+\begin{itemize}
+	\item \textbf{getID} - Arroja el id del espacio geométrico.
+	\item \textbf{length} - Cantidad de puntos del espacio.
+	\item \textbf{active} - Recibe un booleano para indicar si será graficado o no.
+	\item \textbf{getStatus} - Indica si el espacio está activo o no.
+	\item \textbf{setPoint} - Crea un nuevo punto en el espacio geométrico.
+	\item \textbf{getPoints} - Obtiene los puntos pertenecientes al espacio geométrico.
+	\item \textbf{setRange} - Indica un rango de puntos a mostrar.
+	\item \textbf{reset} - Elimina todos los puntos 
+\end{itemize}
+\newpage
+\section{Uso}
+
+Para crear una gráfica se debe tener un espacio geométrico distinto del vacío.
+\\\\
+La forma de crear puntos se realiza a través del método \textbf{setPoint} con la siguiente estructura:
+\\\\
+\begin{tabular}{|m{2.2cm}|m{1.5cm}|m{1.5cm}|m{10cm}|}
+	\hline
+	\rowcolor{black}\textcolor{white}{Parámetro} & \textcolor{white}{Tipo} & \textcolor{white}{Opcional} & \textcolor{white}{Descripción} \\
+	\hline
+	x & number & no & Valor del eje x \\
+	\hline
+	y & number & no & Valor del eje y \\
+	\hline
+	i & object & si & Información adicional del punto (Se visualizarán en el cuadro de información). \\
+	\hline
+\end{tabular}
+\noindent
+\\\\
+En caso de requerir un rango específico se puede utilizar un rango a través del método \textbf{setRange}.
+\\\\
+\begin{tabular}{|m{2.2cm}|m{1.5cm}|m{1.5cm}|m{10cm}|}
+	\hline
+	\rowcolor{black}\textcolor{white}{Parámetro} & \textcolor{white}{Tipo} & \textcolor{white}{Opcional} & \textcolor{white}{Descripción} \\
+	\hline
+	start & number & no & Número de punto inicial (empezando desde el 0) \\
+	\hline
+	end & number & si & Número de punto final, en caso de no declararlo se tomará el punto final \\
+	\hline
+\end{tabular}
+\\\\
+\begin{lstlisting}
+	let g1 = new graphic.create (config);
+	
+	g1.setPoint (1, 6);
+	g1.setPoint (6.1, 1);
+	g1.setPoint (7.22, 9);
+	g1.setPoint (8.9, 4.2);
+	g1.setPoint (10.1, 3);
+	g1.setPoint (15, 4.28);
+	
+	g1.setRange (3, 4); //Se seleccionan los puntos (8.9, 4.2) y (10.1, 3)
+	
+	g1.active (true);
+\end{lstlisting}
+\noindent
+Para la construcción de la gráfica se utiliza el método \textbf{build} de la clase \textbf{GRAPHIC}
+\\\\
+\begin{tabular}{|m{2.2cm}|m{1.5cm}|m{1.5cm}|m{10cm}|}
+	\hline
+	\rowcolor{black}\textcolor{white}{Parámetro} & \textcolor{white}{Tipo} & \textcolor{white}{Opcional} & \textcolor{white}{Descripción} \\
+	\hline
+	range & bool & si & En caso de ser true se tomará el rango configurado permitiendo moverse por la gráfica, caso contrario sólo se mostrará dicho rango. \\
+	\hline
+\end{tabular}
+\\\\
+\begin{lstlisting}
+	let graphic = new GEOMETRY.GRAPHIC.main (config);
+	let g1 = new graphic.create (configGraphic);
+	
+	g1.setPoint (1, 6);
+	g1.setPoint (6.1, 1);
+	g1.setPoint (7.22, 9);
+	g1.setPoint (8.9, 4.2);
+	g1.setPoint (10.1, 3);
+	g1.setPoint (15, 4.28);
+	
+	g1.setRange (3, 4); //Se seleccionan los puntos (8.9, 4.2) y (10.1, 3)
+	
+	g1.active (true);
+	
+	graphic.build (true);
+\end{lstlisting}
+
+\section{Extra}
+
+\subsection{Funciones de notación}
+
+Durante la instanciación de la clase GRAPHIC se incluye la propiedad \textbf{notationX} y \textbf{notationY}; dicha propiedad recibe como argumento el valor del punto y es útil cuando se quiere cambiar la representación de la escala.
+\\\\
+El ejemplo siguiente muestra cómo cambiar la escala a meses:
+\\\\
+\begin{lstlisting}
+	function monthScale (value) {
+		let months = [
+			"ene",
+			"feb",
+			"mar",
+			"abr",
+			"may",
+			"jun",
+			"jul",
+			"ago",
+			"sep",
+			"oct",
+			"nov",
+			"dic"
+		];
+
+        return months[Math.floor (value % 12)];
+	}
+\end{lstlisting}
+
+\subsection{Validaciones extra}
+
+La clase GRAPHIC también cuenta con el método \textbf{onBuild} que solicita como argumento una función que recibe de el objeto circle y los valores del punto, dicha función es ejecutada cada vez que se imprime un punto sobre la gráfica.
+\\\\
+A continuación se muestra un método que verifica cierto rango de valores en y, en caso de ser menores a 11 el punto cambiará su color a rojo.
+\\
+\begin{lstlisting}
+	let graphic = new GEOMETY.GRAPHIC.main (config);
+	
+	graphic.onBuild (function (circle, point) {
+		if (point.info.y < 11) {
+            circle.setAttribute ("style", "stroke-width: 2px;");
+            circle.setAttribute ("stroke", "rgb(254, 0, 0)");
+        }
+	});
+\end{lstlisting}
+
+\end{document}
